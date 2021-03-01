@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Rock Paper Scissors Project</title>
+</head>
+<body>
+
+<style>
+.buttons {
+    background-color: #4CAF50;
+    display: inline;
+    border: 1px solid green;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#scoreContainer{
+    display: grid;
+}
+
+.buttons:hover {background-color: #3e8e41}
+
+.buttons:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+</style>
+    <div id="container">
+        <button id="rock" class="buttons">Rock</button>
+        <button id="paper" class="buttons">Paper</button>
+        <button id="scissors" class="buttons">Scissors</button>
+    </div>
+
+    <div id="scoreContainer">
+        <p>Player Score:<p id="playerScore">0</p></p>
+        <p>Computer Score:<p id="computerScore">0</p></p>
+        <p>Ties:<p id="tieScore">0</p></p>
+    </div>
+
+    <h1 id="winner"></h1>
+
+    <script>
+    function playRound(playerSelection, computerSelection){
+        if(playerSelection === computerSelection){
+            return 0;
+        } else if(playerSelection === "rock" && computerSelection === "scissors"){
+            return 1;
+        } else if(playerSelection === "scissors" && computerSelection === "paper"){
+            return 1;
+        } else if(playerSelection === "paper" && computerSelection === "rock"){
+            return 1;
+        } else if(playerSelection === "rock" && computerSelection === "paper"){
+            return -1;
+        } else if(playerSelection === "scissors" && computerSelection === "rock"){
+            return -1;
+        } else if(playerSelection === "paper" && computerSelection === "scissors"){
+            return -1;
+        }
+    }
+
+    function rngComputer(){
+        let rngBless = Math.floor(Math.random() * Math.floor(3));
+        if(rngBless === 0){
+            return "rock";
+        } else if(rngBless === 1){
+            return "paper";
+        } else if(rngBless === 2){
+            return "scissors";
+        }
+    }
+    
+    function playerSelect(){
+        let playerFighter = prompt("choose rock/paper/scissors");
+        while(true) {
+            if(playerFighter === "rock"){
+                break;
+            } else if(playerFighter === "paper"){
+                break;
+            } else if(playerFighter === "scissors"){
+                break;
+            } else if(playerFighter === ""){
+                break;
+            } else{
+                playerFighter = prompt("choose rock/paper/scissors");
+            }
+        }
+        return playerFighter;
+    }
+
+    const buttons = document.querySelectorAll('button');
+    let playerCount = 0;
+    let computerCount = 0;
+    let tieCount = 0;
+
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            let playerFighter = button.id;
+            let computerFighter = rngComputer();
+            let outcome = playRound(playerFighter, computerFighter);
+            console.log(outcome);
+            
+            const playerScore = document.querySelector("#playerScore");
+            const computerScore = document.querySelector("#computerScore");
+            const tieScore = document.querySelector("#tieScore");
+            const winnerText = document.querySelector("#winner");
+
+            if(outcome === 0){
+                tieCount += 1;
+                tieScore.textContent = tieCount;
+            } else if(outcome === 1){
+                playerCount += 1;
+                playerScore.textContent = playerCount;
+            } else if(outcome === -1){
+                computerCount += 1;
+                computerScore.textContent = computerCount;
+            }
+
+            if(playerCount === 5){
+                winnerText.textContent = "YOU WIN!";
+            }else if(computerCount ===5){
+                winnerText.textContent = "YOU LOSE!";
+            }
+        });
+    });
+
+    </script>
+</body>
+
+</html>
